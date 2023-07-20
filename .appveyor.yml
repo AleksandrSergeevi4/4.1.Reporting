@@ -9,7 +9,7 @@ branches:
 build: off
 
 install:
-  java -jar app-card-delivery.jar &
+  - java -jar app-card-delivery.jar &
 
 build_script:
   - chmod +x gradlew
