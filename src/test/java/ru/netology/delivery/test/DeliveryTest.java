@@ -9,7 +9,7 @@ import ru.netology.delivery.data.DataGenerator;
 
 import java.time.Duration;
 
-import static com.codeborne.selenide.Condition.*;
+import static com.codeborne.selenide.Condition.exactText;
 import static com.codeborne.selenide.Selenide.*;
 
 class DeliveryTest {
@@ -36,20 +36,20 @@ class DeliveryTest {
         $("[data-test-id= 'agreement']").click();
         $$("[type= 'button']").find(exactText("Запланировать")).click();
         $(".notification__content").shouldHave(Condition.text(
-                "Встреча успешно запланирована на " + firstMeetingDate),
-                        Duration.ofSeconds(15)).shouldBe(Condition.visible);
+                        "Встреча успешно запланирована на " + firstMeetingDate),
+                Duration.ofSeconds(15)).shouldBe(Condition.visible);
 
         $$("[type= 'button']").filter(Condition.visible).first().click();
         $("[data-test-id= 'date'] input").sendKeys(Keys.chord(Keys.SHIFT, Keys.HOME), Keys.BACK_SPACE);
         $("[data-test-id= 'date'] input").setValue(secondMeetingDate);
         $$("[type= 'button']").find(Condition.text("Запланировать")).click();
         $("[data-test-id= 'replan-notification']").shouldBe(Condition.visible).shouldHave(Condition.text(
-                "У вас уже запланирована встреча на другую дату. Перепланировать?"),
+                        "У вас уже запланирована встреча на другую дату. Перепланировать?"),
                 Duration.ofSeconds(15));
 
-        $$("[type= 'button']").filter(Condition.visible).first().click();
+        $$("[type= 'button']").find(Condition.text("Перепланировать")).click();
         $(".notification__content").shouldHave(exactText(
-                "Встреча успешно запланирована на " + secondMeetingDate),
-                        Duration.ofSeconds(15)).shouldBe(Condition.visible);
+                        "Встреча успешно запланирована на " + secondMeetingDate),
+                Duration.ofSeconds(15)).shouldBe(Condition.visible);
     }
 }
